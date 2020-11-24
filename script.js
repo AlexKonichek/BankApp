@@ -178,3 +178,24 @@ btnTransfer.addEventListener('click', function(e){
   }
   else{console.log('transfer is  NOT valid')}
 })
+
+//close account  feature
+btnClose.addEventListener('click', function (e) {
+  e.preventDefault()
+
+  console.log(currentAcount)
+  const closeName = inputCloseUsername.value;
+  const closePin = Number(inputClosePin.value);
+
+  if(closeName === currentAcount.username && closePin === currentAcount.pin){
+    const index = accounts.findIndex(acc=> acc.username===closeName)
+  //delete acount
+    accounts.splice(index,1)
+  //hide UI
+  containerApp.style.opacity = 0;
+  }
+  closeName=closePin='';
+
+  
+})
+
