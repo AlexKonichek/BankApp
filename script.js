@@ -18,8 +18,8 @@ const account1 = {
     '2020-04-01T10:17:24.185Z',
     '2020-05-08T14:11:59.604Z',
     '2020-05-27T17:01:17.194Z',
-    '2020-07-11T23:36:17.929Z',
-    '2020-07-12T10:51:36.790Z',
+    '2020-11-25T18:49:59.371Z',
+    '2020-11-24T12:01:20.894Z',
   ],
   currency: 'EUR',
   locale: 'pt-PT', // de-DE
@@ -38,8 +38,8 @@ const account2 = {
     '2020-01-25T14:18:46.235Z',
     '2020-02-05T16:33:06.386Z',
     '2020-04-10T14:43:26.374Z',
-    '2020-06-25T18:49:59.371Z',
-    '2020-07-26T12:01:20.894Z',
+    '2020-11-25T18:49:59.371Z',
+    '2020-11-24T12:01:20.894Z',
   ],
   currency: 'USD',
   locale: 'en-US',
@@ -77,7 +77,26 @@ const inputClosePin = document.querySelector('.form__input--pin');
 /////////////////////////////////////////////////
 
 //Functions
+const now = new Date()
+const formatMovementsDate = function (date) {
+  const calcDayPassed = (date1, date2) => 
+    Math.round(Math.abs(date2 - date1)/(1000*60*60*24));  
+        const day = `${date.getDate()}`.padStart(2,0);
+        const month = `${date.getMonth()+1}`.padStart(2,0);
+        const year = date.getFullYear();
+        const min = `${now.getMinutes()}`.padStart(2,0);
+        const hour = `${now.getHours()}`.padStart(2,0);
+        const dayPassed = calcDayPassed(new Date(), date);
+      if(dayPassed===0)return `Today at ${hour}:${min}`;
+      if(dayPassed===1)return `Yesterday at ${hour}:${min}`;
+      else{
+        return `${day}/${month}/${year}`;
+    }
+    
 
+  
+  
+}
 const displayMovements = function (acc, sort = false) {
   containerMovements.innerHTML = '';
   const movs = sort ? acc.movements.slice().sort((a, b) => a - b) : acc.movements;
@@ -86,11 +105,8 @@ const displayMovements = function (acc, sort = false) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
 
     const date = new Date(acc.movementsDates[i]);
-    const day = `${date.getDate()}`.padStart(2,0);
-    const month = `${date.getMonth()+1}`.padStart(2,0);
-    const year = date.getFullYear();
-   
-    const displayDate = `${day}/${month}/${year}`;
+    const displayDate = formatMovementsDate(date);
+    console.log(formatMovementsDate(date));
     const html = `
       <div class="movements__row">
         <div class="movements__type movements__type--${type}">${
@@ -186,8 +202,7 @@ updateUI(currentAcount);
 containerApp.style.opacity = 100;
 
 //create current date
-const now = new Date()
-console.log(now)
+
 const day = `${now.getDate()}`.padStart(2,0);
 const month = `${now.getMonth()+1}`.padStart(2,0);
 const year = now.getFullYear();
